@@ -1,21 +1,34 @@
 $(document).ready(function () {
     let likesMeter = $(".likeMeter");
-    let button = $(".like-unlike");
-    let likesCount;
+    let button = $("#like-unlike");
+    
+    /******** AJAX get request *********/
+    
+    /*let likeStats = [];
     
     
     $.get("https://jsonplaceholder.typicode.com/todos/5", function(res) {
-        likesCount = res;
+        likeStats = res;
+        console.log(likeStats)
         console.log(likesCount.id)
-        likesMeter.text(likesCount.id)
-    });
+    });*/
+    
+    // Fake Like data
+    const likeStats = {
+        isLiked: false,
+        likeCounts: 45
+    }
+    
+    likesMeter.text(likeStats.likeCounts);
     
     button.click(function () {
-        console.log(likesCount.completed);
+        //  console.log(likesCount.completed);
         
-        if (!likesCount.completed) {
+        if (likeStats.isLiked == false) {
             console.log("if block executed")
-            fetch('https://jsonplaceholder.typicode.com/todos/5', {
+            
+            /******** AJAX Post Request ***********/
+            /*fetch('https://jsonplaceholder.typicode.com/todos/5', {
                 method: 'PATCH',
                 body: JSON.stringify({
                     id: ++likesCount.id,
@@ -30,10 +43,26 @@ $(document).ready(function () {
                 console.log(json);
                 likesMeter.text(json.id);
                 console.log("2 " + likesCount.completed)
-            }); 
+            }); */
+            likeStats.isLiked = !likeStats.isLiked;
+            likeStats.likeCounts++;
+            likesMeter.text(likeStats.likeCounts);
+            
+            // Change Icon
+            button.addClass('fas').removeClass('far')
+            
         } else {
             console.log("else statement executed");
-            fetch('https://jsonplaceholder.typicode.com/todos/5', {
+            
+            likeStats.isLiked = !likeStats.isLiked;
+            likeStats.likeCounts--;
+            likesMeter.text(likeStats.likeCounts);
+            
+            // Change Icon
+            button.addClass('far').removeClass('fas')
+            
+            /******* AJAX post request ******/
+            /*fetch('https://jsonplaceholder.typicode.com/todos/5', {
                 method: 'PATCH',
                 body: JSON.stringify({
                     id: --likesCount.id,
@@ -47,7 +76,7 @@ $(document).ready(function () {
             .then((json) => {
                 console.log(json);
                 likesMeter.text(json.id)
-            }); 
+            }); */
         }
         
     });
